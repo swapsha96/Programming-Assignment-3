@@ -34,11 +34,11 @@ if __name__ == "__main__":
     # initialization
     class_names = list(training_data.keys())
     confusion_matrix = np.zeros((len(class_names), len(class_names))).astype(np.int)
-    k = 50
+    k = 25
 
     counter, total = 0, 0
     for key, v in test_data.items():
-    	total += len(v)
+        total += len(v)
 
     for test_class_name, all_test_features in test_data.items():
         for test_feature in all_test_features:
@@ -47,6 +47,7 @@ if __name__ == "__main__":
             print(class_label, test_class_name, (counter * 100) / total)
             confusion_matrix[class_i(class_names, test_class_name)][class_i(class_names, class_label)] += 1
 
+    print("k: " + str(k))
     print("Confusion Matrix: ")
     print(confusion_matrix)
 
