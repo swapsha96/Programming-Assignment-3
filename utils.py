@@ -3,9 +3,6 @@ import numpy as np
 from os import walk
 
 
-# TODO: http://sci2s.ugr.es/keel/pdf/algorithm/articulo/2002-PR-Wu.pdf
-
-
 def get_accuracy(confusion_matrix):
     num, denom = 0, 0
     for diagonal_index in range(len(confusion_matrix)):
@@ -69,10 +66,12 @@ def get_all_features_from_folder(folder):
         key = dirpath.split("/")[-1]
         if dirnames == []:
             for name in filenames:
+                filetype = name.split(".")[-1]
+                if filetype != "csv" and filetype != "mfcc":
+                    continue
                 if key not in all_paths.keys():
                     all_paths[key] = []
-                for feature in load_csv_from_file(dirpath, name):
-	                all_paths[key].append(feature)
+                all_paths[key].append(load_csv_from_file(dirpath, name))
     return all_paths
 
 def min_neighbour_distance(matrix, i, j):
@@ -93,15 +92,16 @@ def dtw_distance(list1, list2):
     for i in range(len(list1)):
         for j in range(len(list2)):
             matrix[i][j] = np.linalg.norm(list1[i] - list2[j]) + min_neighbour_distance(matrix, i, j)
-    dist = matrix[-1, -1] / (len(list1) * len(list2))
+    dist = matrix[-1, -1]
+    # dist = matrix[-1, -1] / (len(list1) * len(list2))
     del matrix
     return dist
 
 
 def class_i(keys, key):
-	return list(keys).index(key)
+    return list(keys).index(key)
 
 if __name__ == "__main__":
-    list1 = np.array([1, 3, 4, 9, 8, 2, 1, 5, 7, 3])
-    list2 = np.array([1, 6, 2, 3, 0, 9, 4, 3, 6, 3])
+    list1 = np.array([2, 3, 2, 1, 3, 4])
+    list2 = np.array([1, 2, 5, 4, 3, 7])
     print(dtw_distance(list1, list2))
