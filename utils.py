@@ -87,14 +87,27 @@ def min_neighbour_distance(matrix, i, j):
     else:
         return min(bucket)
 
+def min_neighbour_distance_i(matrix, i, j):
+    bucket = []
+    if (i-1) != -1 and j != -1:
+        bucket.append((matrix[i-1][j], i-1, j))
+    if i != -1 and (j-1) != -1:
+        bucket.append((matrix[i][j-1], i, j-1))
+    if (i-1) != -1 and (j-1) != -1:
+        bucket.append((matrix[i-1][j-1], i-1, j-1))
+    
+    return min(bucket, key = lambda t: t[0])
+
 def dtw_distance(list1, list2):
     matrix = np.zeros((len(list1), len(list2))).astype(np.float)
     for i in range(len(list1)):
         for j in range(len(list2)):
             matrix[i][j] = np.linalg.norm(list1[i] - list2[j]) + min_neighbour_distance(matrix, i, j)
-    dist = matrix[-1, -1]
-    # dist = matrix[-1, -1] / (len(list1) * len(list2))
-    del matrix
+    dist, i, j = matrix[-1][-1], len(list1) - 1, len(list2) - 1
+
+    while i != 0 and j != 0:
+        d, i, j = min_neighbour_distance_i(matrix, i, j)
+        dist += d
     return dist
 
 

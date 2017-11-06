@@ -36,8 +36,8 @@ if __name__ == "__main__":
     # initialization
     class_names = list(training_data.keys())
     confusion_matrix = np.zeros((len(class_names), len(class_names))).astype(np.int)
-    
-    for k in range(1, 2):
+
+    for k in range(1, 51):
         print("k: " + str(k))
         counter, total = 0, 0
         for key, v in test_data.items():
