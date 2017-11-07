@@ -47,6 +47,7 @@ if __name__ == "__main__":
             for test_feature in all_test_features:
                 class_label = get_class_label(test_feature, training_data, k)
                 counter += 1
+                print(counter, total)
                 confusion_matrix[class_i(class_names, test_class_name)][class_i(class_names, class_label)] += 1
         print("Confusion Matrix: ")
         print(confusion_matrix)

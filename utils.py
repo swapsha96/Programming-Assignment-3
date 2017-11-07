@@ -103,12 +103,7 @@ def dtw_distance(list1, list2):
     for i in range(len(list1)):
         for j in range(len(list2)):
             matrix[i][j] = np.linalg.norm(list1[i] - list2[j]) + min_neighbour_distance(matrix, i, j)
-    dist, i, j = matrix[-1][-1], len(list1) - 1, len(list2) - 1
-
-    while i != 0 and j != 0:
-        d, i, j = min_neighbour_distance_i(matrix, i, j)
-        dist += d
-    return dist
+    return matrix[len(list1)-1][len(list2)-1]
 
 
 def class_i(keys, key):
